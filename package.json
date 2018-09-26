@@ -1,5 +1,5 @@
 {
-  "name": "cics_nodejs_zosconnect",
+  "name": "cics_nodejs_invoke",
   "version": "0.1.0",
   "description": "Blah",
   "license": "Apache-2.0",
@@ -12,12 +12,14 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "node-fetch": "latest",
-    "express": "latest",
-    "body-parser": "latest",
-    "dotenv": "latest",
     "angular": "latest",
+    "body-parser": "latest",
     "bootstrap": "latest",
-    "jquery": "latest"
+    "dotenv": "latest",
+    "express": "latest",
+    "jquery": "latest",
+    "node-fetch": "latest",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
   }
 }

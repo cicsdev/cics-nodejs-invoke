@@ -7,8 +7,9 @@
 // US Government Users Restricted Rights - Use, duplication or
 // disclosure restricted by GSA ADP Schedule Contract with IBM Corp
 
-var express = require('express');
-var fetch = require('node-fetch');
+const express = require('express');
+const fetch = require('node-fetch');
+const request = require('request-promise');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -16,7 +17,7 @@ app.use(bodyParser.json());
 
 // Read in variables
 var port = process.env.PORT || 3000;
-var zosconnect = process.env.ZOSCONNECT_SERVER || 'http://winmvs2c.hursley.ibm.com:27160';
+var catalogServer = process.env.CATALOG_SERVER || 'http://winmvs2c.hursley.ibm.com:28220';
 
 var server = app.listen(port, function () {
     console.log('This app is listening on port %d!', port);
@@ -47,11 +48,24 @@ app.get('/catalogManager/items', function (req, res) {
 
     //Create empty array
     var allItemsArray = [];
-    var url1 = zosconnect + '/catalogManager/items?startItemID=0010';
-    var url2 = zosconnect + '/catalogManager/items?startItemID=0160';
 
+    let inquireRequest = {
+				    "inquireCatalogRequest": {
+				      "startItemRef": 10,
+				      "itemCount": 774
+				    }
+		};
+    let inquireRequest2 = inquireRequest;
+    inquireRequest2.startItemRef = 100;
 
-    var promise1 = fetch(url1)
+    let url = catalogServer + "/exampleApp/json_inquireCatalogWrapper";
+
+    var promise1 = request({
+      method: "POST",
+      uri: url,
+      body: inquireRequest,
+      json: true
+    })
         .then(function (res) {
             console.log("LOAD ITEMS: Calling API to fetch items: " + url1);
             return res.json();
@@ -61,7 +75,12 @@ app.get('/catalogManager/items', function (req, res) {
             console.log('');
         });
 
-    var promise2 = fetch(url2)
+    var promise2 = request({
+      method: "POST",
+      uri: url,
+      body: inquireRequest2,
+      json: true
+    })
         .then(function (res) {
             console.log("LOAD ITEMS: Calling API to fetch items: " + url2);
             return res.json();
