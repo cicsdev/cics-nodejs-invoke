@@ -102,14 +102,14 @@ app.get('/catalogManager/items', function (req, res) {
 // Buying POST function
 app.post('/catalogManager/buy/:id/:numberOfItems', function (req, res) {
 
-    var url = zosconnect + '/catalogManager/orders';
+    var url = catalogServer + '/exampleApp/json_placeOrderWrapper';
 
     var opts = {
-        "DFH0XCMNOperation": {
-            "ca_order_request": {
-                "itemRef_number": req.params.id,
-                "ca_quantity_req": req.params.numberOfItems
-            }
+        "placeOrderRequest" : {
+          "orderRequest" : {
+            "itemReference" : req.params.id,
+            "quantityRequired" : req.params.numberOfItems
+          }
         }
     };
 
