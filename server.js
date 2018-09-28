@@ -9,7 +9,7 @@
 
 const express = require('express');
 const fetch = require('node-fetch');
-const request = require('request-promise');
+const request = require('request-promise-native');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -22,7 +22,7 @@ var catalogServer = process.env.CATALOG_SERVER || 'http://winmvs2c.hursley.ibm.c
 var server = app.listen(port, function () {
     console.log('This app is listening on port %d!', port);
     //console.log('This application is running in CICS ');
-    console.log('Using z/OS Connect server: ' + zosconnect);
+    console.log('Connecting to CICS system: ' + catalogServer);
     console.log('');
 });
 
@@ -52,12 +52,13 @@ app.get('/catalogManager/items', function (req, res) {
     let inquireRequest = {
 				    "inquireCatalogRequest": {
 				      "startItemRef": 10,
-				      "itemCount": 774
 				    }
 		};
-    let inquireRequest2 = inquireRequest;
-    inquireRequest2.startItemRef = 100;
-
+    let inquireRequest2 = {
+            "inquireCatalogRequest": {
+              "startItemRef": 160,
+            }
+    };
     let url = catalogServer + "/exampleApp/json_inquireCatalogWrapper";
 
     var promise1 = request({
@@ -66,12 +67,10 @@ app.get('/catalogManager/items', function (req, res) {
       body: inquireRequest,
       json: true
     })
-        .then(function (res) {
-            console.log("LOAD ITEMS: Calling API to fetch items: " + url1);
-            return res.json();
-        }).then(function (json) {
+        .then(function (json) {
             console.log("Response 1 received - concat to JSON array.");
-            allItemsArray = allItemsArray.concat(json.DFH0XCMNOperationResponse.ca_inquire_request.ca_cat_item);
+            console.dir(json.inquireCatalogResponse.catalogItem);
+            allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
             console.log('');
         });
 
@@ -81,12 +80,10 @@ app.get('/catalogManager/items', function (req, res) {
       body: inquireRequest2,
       json: true
     })
-        .then(function (res) {
-            console.log("LOAD ITEMS: Calling API to fetch items: " + url2);
-            return res.json();
-        }).then(function (json) {
+        .then(function (json) {
             console.log("Response 2 received - concat to JSON array.");
-            allItemsArray = allItemsArray.concat(json.DFH0XCMNOperationResponse.ca_inquire_request.ca_cat_item);
+            console.dir(json.inquireCatalogResponse.catalogItem);
+            allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
             console.log('');
         });
 
@@ -110,7 +107,7 @@ app.post('/catalogManager/buy/:id/:numberOfItems', function (req, res) {
     var opts = {
         "DFH0XCMNOperation": {
             "ca_order_request": {
-                "ca_item_ref_number": req.params.id,
+                "itemRef_number": req.params.id,
                 "ca_quantity_req": req.params.numberOfItems
             }
         }
