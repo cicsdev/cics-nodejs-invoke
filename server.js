@@ -8,8 +8,7 @@
 // disclosure restricted by GSA ADP Schedule Contract with IBM Corp
 
 const express = require('express');
-const fetch = require('node-fetch');
-const request = require('request-promise-native');
+const cics = require('ibm-cics-api');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -61,12 +60,7 @@ app.get('/catalogManager/items', function (req, res) {
     };
     let url = catalogServer + "/exampleApp/json_inquireCatalogWrapper";
 
-    var promise1 = request({
-      method: "POST",
-      uri: url,
-      body: inquireRequest,
-      json: true
-    })
+    var promise1 = cics.invoke(url,inquireRequest)
         .then(function (json) {
             console.log("Response 1 received - concat to JSON array.");
             console.dir(json.inquireCatalogResponse.catalogItem);
@@ -74,12 +68,7 @@ app.get('/catalogManager/items', function (req, res) {
             console.log('');
         });
 
-    var promise2 = request({
-      method: "POST",
-      uri: url,
-      body: inquireRequest2,
-      json: true
-    })
+    var promise2 = cics.invoke(url,inquireRequest2)
         .then(function (json) {
             console.log("Response 2 received - concat to JSON array.");
             console.dir(json.inquireCatalogResponse.catalogItem);
@@ -116,20 +105,17 @@ app.post('/catalogManager/buy/:id/:numberOfItems', function (req, res) {
     console.log("BUY ITEMS: Calling API to buy items: " + url);
     console.log("Option parameters: " + JSON.stringify(opts));
 
-    fetch(url, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(opts)
-    }).then(function (response) {
+    cics.invoke(url,opts)
+    .then(function (response) {
         console.log("Order item " + req.params.id + "successfully placed!");
-        return response.json();
-    }).then(function (data) {
+        return response;
+    },function (err) {
+      console.err(err);
+    }
+  ).then(function (data) {
         console.log("Returning response to client");
         console.log("");
         res.send(JSON.stringify(data));
     });
-
+    //TODO Need a rejection handler here
 });
