@@ -20,7 +20,7 @@ You'll need a TCPIPSERVICE and a PIPELINE configured for JSON web services.  If 
 ## Deploying the CICS web services
 
 1. Clone this repository into a temporary directory on zFS.
-2. Copy the WSBind files into the pickup directory of your PIPELINE.
+2. Copy the WSBind files from `wsbinds` folder into the pickup directory of your PIPELINE.
 3. Either:
    (a) perform a PIPELINE SCAN
 or (b) define WEBSERVICE and URIMAP resources for the services.
@@ -28,14 +28,14 @@ or (b) define WEBSERVICE and URIMAP resources for the services.
 
 ## Deploying the Node.js application
 
-1. Copy the contents of the 'bundle' folder to a suitable location zFS where CICS can read it.
+1. Copy the contents of the `bundle` folder from this repository to a suitable location zFS where CICS can read it.
 2. Customize the profile:
- --* Set the PORT environment variable to an avaiable TCP/IP port for your system
- --* Set WORK_DIR to a suitable zFS directory for the logs.
- --* If needed, set NODE_HOME to the location of the IBM SDK for z/OS - Node.js on your system.
+ --* Set the `PORT` environment variable to an avaiable TCP/IP port for your system
+ --* Set `WORK_DIR` to a suitable zFS directory for the logs.
+ --* If needed, set `NODE_HOME` to the location of the IBM SDK for z/OS - Node.js on your system.
 3. Create and install a CICS BUNDLE resource, setting the BUNDLER_DIR to the zFS directory.     
 
-## Testing the application
+## Testing the application  
 
 Visit the URL from a web broswer
 http://<my-mvs-host>:<port>
