@@ -17,7 +17,7 @@
     "bootstrap": "latest",
     "dotenv": "latest",
     "express": "latest",
-    "ibm-cics-api": "file:../../Documents/Node/ibm-cics-api",
+    "ibm-cics-api": "latest",
     "jquery": "latest"
   }
 }
