@@ -1,8 +1,8 @@
-  // Licensed Materials - Property of IBM
+// Licensed Materials - Property of IBM
 //
 // SAMPLE
 //
-// (c) Copyright IBM Corp. 2017 All Rights Reserved
+// (c) Copyright IBM Corp. 2017, 2018 All Rights Reserved
 //
 // US Government Users Restricted Rights - Use, duplication or
 // disclosure restricted by GSA ADP Schedule Contract with IBM Corp
@@ -19,10 +19,13 @@ var port = process.env.PORT || 3000;
 var catalogServer = process.env.CATALOG_SERVER || 'http://example.org:9999';
 
 var server = app.listen(port, function () {
-    console.log('This app is listening on port %d!', port);
-    //console.log('This application is running in CICS ');
-    console.log('Connecting to CICS system: ' + catalogServer);
-    console.log('');
+    console.log('This app is listening on port %d.', port);
+    if (process.env.hasOwnProperty("CICS_USSHOME")) {
+      console.log('This application is running in CICS, using locally-optimized transport');
+    } else {
+      console.log('Connecting to CICS system: ' + catalogServer);
+    }
+
 });
 
 process.on('SIGTERM', function () {
@@ -81,8 +84,7 @@ app.get('/catalogManager/items', function (req, res) {
         res.send(JSON.stringify(allItemsArray));
 
     }).catch(function (err) {
-        console.log("Promise error: " + err);
-        console.log("Promise Rejected");
+        console.log("Error during cics invoke: " + err);
     });
 });
 
@@ -117,5 +119,4 @@ app.post('/catalogManager/buy/:id/:numberOfItems', function (req, res) {
         console.log("");
         res.send(JSON.stringify(data));
     });
-    //TODO Need a rejection handler here
 });
