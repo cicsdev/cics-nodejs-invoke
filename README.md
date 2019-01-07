@@ -12,12 +12,12 @@ Configure the CICS catalog manager by following the procedures in topic [Install
 
 ## Configuring CICS for JSON web services
 
-1. Create a directory in zFS for the CICS web service bind (WSBind) files.
-1. Copy the following example WSBind files from your CICS installation directory into this directory.
+1. Create a directory in zFS for the CICS [web service binding](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/fundamentals/web-services/dfhws_wsbind.html) (WSBind) files.
+1. Copy the CICS catalog manager WSBind files from your CICS installation directory into this directory.
  * `<cics_install_dir>/samples/webservices/wsbind/provider/inquireCatalogWrapper.wsbind`
  * `<cics_install_dir>/samples/webservices/wsbind/provider/placeOrderWrapper.wsbind`
 1. Modify the PIPELINE(EXPIPE01) resource attribute `WSDIR` to the directory containing the WSBind files.
-1. Install the PIPELINE(EXPIPE01) resource and check it is enabled.
+1. Install the PIPELINE(EXPIPE01) resource and check it is enable filesd.
 1. If you wish to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3000)` on which REST API requests are received from the front end. Note the ibm-cics-api module does not support HTTP basic authentication.
 
 ## Testing the application on your workstation
