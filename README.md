@@ -12,19 +12,13 @@ Configure the CICS catalog manager by following the procedures in topic [Install
 
 ## Configuring CICS for JSON web services
 
-You will need a PIPELINE configured for JSON web services.
-
-
-If you want to test the application from your workstation, you will also need a TCPIPSERVICE.
-## Deploying the CICS web services
-
 1. Create a directory in zFS for the CICS web service bind (WSBind) files.
 1. Copy the following example WSBind files from your CICS installation directory into this directory.
  * `<cics_install_dir>/samples/webservices/wsbind/provider/inquireCatalogWrapper.wsbind`
  * `<cics_install_dir>/samples/webservices/wsbind/provider/placeOrderWrapper.wsbind`
-1. Modify the PIPELINE(EXPIPE01) resource attribute `WS Directory` to the directory for the WSBind files.
-1. Install the PIPELINE(EXPIPE01) resource.
-1. Optionally, if you wish to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource. Note the ibm-cics-api module does not support the HTTPS scheme.
+1. Modify the PIPELINE(EXPIPE01) resource attribute `WSDIR` to the directory containing the WSBind files.
+1. Install the PIPELINE(EXPIPE01) resource and check it is enabled.
+1. If you wish to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3000)` on which REST API requests are received from the front end. Note the ibm-cics-api module does not support HTTP basic authentication.
 
 ## Testing the application on your workstation
 
@@ -62,12 +56,13 @@ git clone https://github.com/cicsdev/cics-nodejs-invoke.git
 cd cics-nodejs-invoke/bundle
 npm install
 ```
-1. Copy the contents of the `bundle` folder from this repository to a suitable location in zFS where CICS can read it.
+1. Copy the contents of the `bundle` folder from this repository to a suitable location in zFS where the CICS region ID has read access.
 1. Update `/bundle/catalog.profile`:
  * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
  * `WORK_DIR=.` should be set to a suitable zFS directory for the stdout and stderr logs created when CICS starts the Node.js application.
  * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
-1. Create and install a CICS BUNDLE resource, setting the `BUNDLERDIR` attribute to the zFS directory.
+ * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
+1. Create and install a BUNDLE resource, setting the `BUNDLERDIR` attribute to the zFS directory.
 
 ## Testing the application in CICS
 
