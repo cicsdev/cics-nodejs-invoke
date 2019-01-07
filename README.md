@@ -14,8 +14,8 @@ Configure the CICS catalog manager by following the procedures in topic [Install
 
 1. Create a directory in zFS for the CICS [web service binding](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/fundamentals/web-services/dfhws_wsbind.html) (WSBind) files.
 1. Copy the CICS catalog manager WSBind files from your CICS installation directory into this directory.
- * `<cics_install_dir>/samples/webservices/wsbind/provider/inquireCatalogWrapper.wsbind`
- * `<cics_install_dir>/samples/webservices/wsbind/provider/placeOrderWrapper.wsbind`
+  * `<cics_install_dir>/samples/webservices/wsbind/provider/inquireCatalogWrapper.wsbind`
+  * `<cics_install_dir>/samples/webservices/wsbind/provider/placeOrderWrapper.wsbind`
 1. Modify the PIPELINE(EXPIPE01) resource attribute `WSDIR` to the directory containing the WSBind files.
 1. Install the PIPELINE(EXPIPE01) resource and check it is enable filesd.
 1. If you wish to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3000)` on which REST API requests are received from the front end. Note the ibm-cics-api module does not support HTTP basic authentication.
@@ -23,45 +23,45 @@ Configure the CICS catalog manager by following the procedures in topic [Install
 ## Testing the application on your workstation
 
 1. Clone this repository:
-```
-git clone https://github.com/cicsdev/cics-nodejs-invoke.git
-```
+  ```
+  git clone https://github.com/cicsdev/cics-nodejs-invoke.git
+  ```
 1. Download the Node.js modules that the application depends on:
-```
-cd cics-nodejs-invoke/bundle`
-npm install
-```
+  ```
+  cd cics-nodejs-invoke/bundle`
+  npm install
+  ```
 1. Set the host and port for connecting to CICS. This should match the host and port configured in the TCPIPSERVICE resource in CICS.
-```
-export CATALOG_SERVER=http://testplex.example.org:10000
-```
+  ```
+  export CATALOG_SERVER=http://testplex.example.org:10000
+  ```
 1. Optionally set the local port the application will listen on. The default value is 3000.
-```
-export PORT=3000
-```
+  ```
+  export PORT=3000
+  ```
 1. Start the application.
-```
-npm start
-```
+  ```
+  npm start
+  ```
 1. Visit the URL from a web browser: http://localhost:3000/
 
 ## Deploying the Node.js application in CICS
 
 1. Clone this repository to a directory on zFS.
-```
-git clone https://github.com/cicsdev/cics-nodejs-invoke.git
-```
+  ```
+  git clone https://github.com/cicsdev/cics-nodejs-invoke.git
+  ```
 1. Download the Node.js modules that the application depends on:
-```
-cd cics-nodejs-invoke/bundle
-npm install
-```
+  ```
+  cd cics-nodejs-invoke/bundle
+  npm install
+  ```
 1. Copy the contents of the `bundle` folder from this repository to a suitable location in zFS where the CICS region ID has read access.
 1. Update `/bundle/catalog.profile`:
- * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
- * `WORK_DIR=.` should be set to a suitable zFS directory for the stdout and stderr logs created when CICS starts the Node.js application.
- * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
- * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
+  * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
+  * `WORK_DIR=.` should be set to a suitable zFS directory for the stdout and stderr logs created when CICS starts the Node.js application.
+  * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
+  * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
 1. Create and install a BUNDLE resource, setting the `BUNDLERDIR` attribute to the zFS directory.
 
 ## Testing the application in CICS
