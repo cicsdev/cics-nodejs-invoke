@@ -1,4 +1,4 @@
-# cics-nodejs-zosconnect
+# cics-nodejs-invoke
 Sample Node.js application that uses the invoke API from the [ibm-cics-api](https://www.npmjs.com/package/ibm-cics-api) module to call COBOL programs included in the CICS catalog manager. The Node.js application includes the following elements:
 
 * *A browser front end* web site that uses JavaScript to call REST APIs to retrieve and display items in the catalog and to place orders.
@@ -71,10 +71,12 @@ npm install
 
 ## Testing the application in CICS
 
-Visit the URL from a web browser, for example: http://myzoshost.example.org:3000
+Visit the URL from a web browser, for example: http://myzoshost.example.org:3000/
 
 ## Troubleshooting
 
-If the application does not respond to the HTTP request, check the BUNDLE resource is installed and enabled. Next check the stderr and stdout files that will be created in a sub-directory of the `WORK_DIR` specified in `/bundle/catalog.profile`. The full paths of stderr and stdout can be seen in the *Node.js Applications* view in CICS Explorer and by the CICS command `CEMT INQUIRE NODEJSAPP`.
+If the application does not respond to the HTTP request, check the BUNDLE resource is installed and enabled.
+
+Next check the stderr and stdout files that will be created in a sub-directory of the `WORK_DIR` specified in `/bundle/catalog.profile`. The full paths of stderr and stdout can be seen in the *Node.js Applications* view in CICS Explorer and by the CICS command `CEMT INQUIRE NODEJSAPP`.
 
 For more help see the topic [Troubleshooting Node.js applications](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/troubleshooting/node/node-troubleshooting.html).
