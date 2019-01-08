@@ -4,6 +4,13 @@ Sample Node.js application that uses the invoke API from the [ibm-cics-api](http
 * *A browser front end* web site that uses JavaScript to call REST APIs to retrieve and display items in the catalog and to place orders.
 * *A Node.js back end* that uses the [Express](https://expressjs.com/) framework to implement REST APIs that return catalog details and place orders. Each REST API uses the invoke API to call COBOL programs from the CICS catalog manager.
 
+## Pre-requisites
+
+* CICS TS V5.5 or later.
+* IBM SDK for Node.js - z/OS 6.14.4 or later.
+* Node.js 6 or later on the workstation.
+* Git on z/OS and the workstation, or alternatively download manually.
+
 ## Setting up the CICS catalog manager
 
 [The CICS catalog manager example application](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t100.html) is provided with the CICS installation and includes COBOL programs and VSAM files to store the catalog. It also includes a 3270 terminal interface that is not used by this Node.js application.
@@ -75,3 +82,6 @@ If the application does not respond to the HTTP request, check the BUNDLE resour
 Next check the stderr and stdout files that will be created in a sub-directory of the `WORK_DIR` specified in `/bundle/catalog.profile`. The full paths of stderr and stdout can be seen in the *Node.js Applications* view in CICS Explorer and by the CICS command `CEMT INQUIRE NODEJSAPP`.
 
 For more help see the topic [Troubleshooting Node.js applications](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/troubleshooting/node/node-troubleshooting.html).
+
+## License
+This project is licensed under [Apache License Version 2.0](LICENSE).  
