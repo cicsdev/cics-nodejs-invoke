@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cicsdev/cics-nodejs-zosconnect.git"
+    "url": "https://github.com/cicsdev/cics-nodejs-invoke.git"
   },
   "main": "server.js",
   "scripts": {
