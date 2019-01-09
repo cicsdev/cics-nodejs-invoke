@@ -20,19 +20,20 @@ var catalogServer = process.env.CATALOG_SERVER || 'http://example.org:9999';
 
 var server = app.listen(port, function () {
     console.log('This app is listening on port %d.', port);
+
     if (process.env.hasOwnProperty("CICS_USSHOME")) {
       console.log('This application is running in CICS, using locally-optimized transport');
     } else {
       console.log('Connecting to CICS system: ' + catalogServer);
     }
-
-});
+  }
+);
 
 process.on('SIGTERM', function () {
-	  server.close(function () {
-		console.log('Received SIGINT at ' + (new Date()));
-	  });
-	});
+  server.close(function () {
+    console.log('Received SIGINT at ' + (new Date()));
+  });
+});
 
 console.log(`This application is running on platform: ${process.platform}`);
 console.log(' ');
@@ -47,76 +48,75 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 
 //jQuery calls this URL, this function calls two REST APIs, merges the responses and send it to the client
 app.get('/catalogManager/items', function (req, res) {
+  //Create empty array
+  var allItemsArray = [];
 
-    //Create empty array
-    var allItemsArray = [];
+  let inquireRequest = {
+    "inquireCatalogRequest": {
+      "startItemRef": 10,
+    }
+  };
 
-    let inquireRequest = {
-				    "inquireCatalogRequest": {
-				      "startItemRef": 10,
-				    }
-		};
-    let inquireRequest2 = {
-            "inquireCatalogRequest": {
-              "startItemRef": 160,
-            }
-    };
-    let url = catalogServer + "/exampleApp/inquireCatalogWrapper";
+  let inquireRequest2 = {
+    "inquireCatalogRequest": {
+      "startItemRef": 160,
+    }
+  };
 
-    var promise1 = cics.invoke(url,inquireRequest)
-        .then(function (json) {
-            console.log("Response 1 received - concat to JSON array.");
-            console.dir(json.inquireCatalogResponse.catalogItem);
-            allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
-            console.log('');
-        });
+  let url = catalogServer + "/exampleApp/inquireCatalogWrapper";
 
-    var promise2 = cics.invoke(url,inquireRequest2)
-        .then(function (json) {
-            console.log("Response 2 received - concat to JSON array.");
-            console.dir(json.inquireCatalogResponse.catalogItem);
-            allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
-            console.log('');
-        });
+  var promise1 = cics.invoke(url,inquireRequest)
+    .then(function (json) {
+      console.log("Response 1 received - concat to JSON array.");
+      console.dir(json.inquireCatalogResponse.catalogItem);
+      allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
+      console.log('');
+    });
 
-    //When both responses come back, send the array of items to client
-    Promise.all([promise1, promise2]).then(values => {
-        res.send(JSON.stringify(allItemsArray));
+  var promise2 = cics.invoke(url,inquireRequest2)
+    .then(function (json) {
+      console.log("Response 2 received - concat to JSON array.");
+      console.dir(json.inquireCatalogResponse.catalogItem);
+      allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
+      console.log('');
+    });
 
-    }).catch(function (err) {
-        console.log("Error during cics invoke: " + err);
+  //When both responses come back, send the array of items to client
+  Promise.all([promise1, promise2])
+    .then(values => {
+      res.send(JSON.stringify(allItemsArray));
+    })
+    .catch(function (err) {
+      console.log("Error during cics invoke: " + err);
     });
 });
 
-
-
 // Buying POST function
 app.post('/catalogManager/buy/:id/:numberOfItems', function (req, res) {
+  var url = catalogServer + '/exampleApp/placeOrderWrapper';
 
-    var url = catalogServer + '/exampleApp/placeOrderWrapper';
-
-    var opts = {
-        "placeOrderRequest" : {
-          "orderRequest" : {
-            "itemReference" : req.params.id,
-            "quantityRequired" : req.params.numberOfItems
-          }
-        }
-    };
-
-    console.log("BUY ITEMS: Calling API to buy items: " + url);
-    console.log("Option parameters: " + JSON.stringify(opts));
-
-    cics.invoke(url,opts)
-    .then(function (response) {
-        console.log("Order item " + req.params.id + "successfully placed!");
-        return response;
-    },function (err) {
-      console.err(err);
+  var opts = {
+    "placeOrderRequest" : {
+      "orderRequest" : {
+        "itemReference" : req.params.id,
+        "quantityRequired" : req.params.numberOfItems
+      }
     }
-  ).then(function (data) {
-        console.log("Returning response to client");
-        console.log("");
-        res.send(JSON.stringify(data));
+  };
+
+  console.log("BUY ITEMS: Calling API to buy items: " + url);
+  console.log("Option parameters: " + JSON.stringify(opts));
+
+  cics.invoke(url,opts)
+    .then(function (response) {
+      console.log("Order item " + req.params.id + "successfully placed!");
+      return response;
+      },function (err) {
+        console.err(err);
+    })
+    .then(function (data) {
+      console.log("Returning response to client");
+      console.log("");
+      res.send(JSON.stringify(data));
     });
 });
