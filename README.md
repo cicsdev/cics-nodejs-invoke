@@ -1,9 +1,9 @@
 # cics-nodejs-invoke
 Sample Node.js application that uses the invoke API from the [ibm-cics-api](https://www.npmjs.com/package/ibm-cics-api) module to call COBOL programs included in the CICS catalog manager. The Node.js application includes the following elements:
-* [`/bundle/public`](/bundle/public) - *A browser front end* web site that uses JavaScript to call REST APIs to retrieve and display items in the catalog and to place orders.
-* [`/bundle/server.js`](/bundle/server.js) - *A Node.js back end* that uses the [Express](https://expressjs.com/) framework to implement REST APIs that return catalog details and place orders. Each REST API uses the invoke API to call COBOL programs from the CICS catalog manager - see `cics.invoke(url,inquireRequest).then( ... )`.
-* [`/bundle/catalog.profile`](/bundle/catalog.profile) - The CICS Node.js application profile is used by CICS to setup the Node.js runtime and environment  variables passed to the application.
-* [`/bundle`](/bundle) - The CICS bundle that contains the Node.js application and the profile and is used to install and manage the application in CICS.
+* [`/projects/cics-nodejs-invoke/public`](/projects/cics-nodejs-invoke/public) - *A browser front end* web site that uses JavaScript to call REST APIs to retrieve and display items in the catalog and to place orders.
+* [`/projects/cics-nodejs-invoke/server.js`](/projects/cics-nodejs-invoke/server.js) - *A Node.js back end* that uses the [Express](https://expressjs.com/) framework to implement REST APIs that return catalog details and place orders. Each REST API uses the invoke API to call COBOL programs from the CICS catalog manager - see `cics.invoke(url,inquireRequest).then( ... )`.
+* [`/projects/cics-nodejs-invoke/catalog.profile`](/projects/cics-nodejs-invoke/catalog.profile) - The CICS Node.js application profile is used by CICS to setup the Node.js runtime and environment  variables passed to the application.
+* [`/projects/cics-nodejs-invoke`](/projects/cics-nodejs-invoke) - The CICS bundle that contains the Node.js application and the profile and is used to install and manage the application in CICS.
 
 ## Pre-requisites
 * CICS TS V5.5 or later.
@@ -32,7 +32,7 @@ Configure the CICS catalog manager by following the procedures in topic [Install
    ```
 1. Download the Node.js modules that the application depends on:
    ```
-   cd cics-nodejs-invoke/bundle
+   cd cics-nodejs-invoke/projects/cics-nodejs-invoke
    npm install
    ```
 1. Set the host and port for connecting to CICS. This should match the host and port configured in the TCPIPSERVICE resource in CICS.
@@ -56,11 +56,11 @@ Configure the CICS catalog manager by following the procedures in topic [Install
    ```
 1. Download the Node.js modules that the application depends on:
    ```
-   cd cics-nodejs-invoke/bundle
+   cd cics-nodejs-invoke/projects/cics-nodejs-invoke
    npm install
    ```
 1. Copy the contents of the `bundle` folder from this repository to a suitable location in zFS where the CICS region ID has read access.
-1. Update [`/bundle/catalog.profile`](/bundle/catalog.profile):
+1. Update [`/projects/cics-nodejs-invoke/catalog.profile`](/projects/cics-nodejs-invoke/catalog.profile):
    * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
    * `WORK_DIR=.` should be set to a suitable zFS directory for the stdout and stderr logs created when CICS starts the Node.js application.
    * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
@@ -73,7 +73,7 @@ Visit the URL from a web browser, for example: http://myzoshost.example.org:3000
 ## Troubleshooting
 If the application does not respond to the HTTP request, check the BUNDLE resource is installed and enabled.
 
-Next check the stderr and stdout files that will be created in a sub-directory of the `WORK_DIR` specified in `/bundle/catalog.profile`. The full paths of stderr and stdout can be seen in the *Node.js Applications* view in CICS Explorer and by the CICS command `CEMT INQUIRE NODEJSAPP`.
+Next check the stderr and stdout files that will be created in a sub-directory of the `WORK_DIR` specified in [`/projects/cics-nodejs-invoke/catalog.profile`](/projects/cics-nodejs-invoke/catalog.profile). The full paths of stderr and stdout can be seen in the *Node.js Applications* view in CICS Explorer or by the CICS command [CEMT INQUIRE NODEJSAPP](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/transactions/cemt-inquirenodejsapp.html).
 
 For more help see the topic [Troubleshooting Node.js applications](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/troubleshooting/node/node-troubleshooting.html).
 
