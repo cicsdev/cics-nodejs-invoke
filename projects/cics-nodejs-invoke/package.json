@@ -12,12 +12,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "angular": "latest",
-    "body-parser": "latest",
-    "bootstrap": "latest",
-    "dotenv": "latest",
-    "express": "latest",
-    "ibm-cics-api": "latest",
-    "jquery": "latest"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "ibm-cics-api": "^1.0.1"
   }
 }
