@@ -11,19 +11,22 @@ Sample Node.js application that uses the invoke API from the [ibm-cics-api](http
 * Node.js 6 or later on the workstation.
 * Git on z/OS and the workstation, or alternatively download manually.
 
-## Setting up the CICS catalog manager
-[The CICS catalog manager example application](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t100.html) is provided with the CICS installation and includes COBOL programs and VSAM files to store the catalog. It also includes a 3270 terminal interface that is not used by this Node.js application.
+## Install the CICS catalog manager
+This Node.js application requires [the CICS catalog manager example application](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t100.html) to be installed. It is provided with the CICS installation and includes COBOL programs and VSAM files to store the catalog. It also includes a 3270 terminal interface that is not used by this Node.js application.
 
-Configure the CICS catalog manager by following the procedures in topic [Installing and setting up the base application](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t230.html).
+The Node.js application uses the invoke API to call the JSON web service endpoints `/exampleApp/inquireCatalogWrapper` and `/exampleApp/placeOrderWrapper`. You therefore also need URIMAP, PIPELINE, and WSBIND resources to process these requests. 
 
-## Configuring CICS for JSON web services
+1. Configure the CICS catalog manager by following the procedures in topic [Installing and setting up the base application](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t230.html).
 1. Create a directory in zFS for the CICS [web service binding](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/fundamentals/web-services/dfhws_wsbind.html) (WSBind) files.
-1. Copy the CICS catalog manager WSBind files from your CICS installation directory into this directory.
+1. Copy the following CICS catalog manager WSBind files from your CICS installation directory into this directory. Ensure the CICS region ID has read access to these files.
    * `<cics_install_dir>/samples/webservices/wsbind/provider/inquireCatalogWrapper.wsbind`
    * `<cics_install_dir>/samples/webservices/wsbind/provider/placeOrderWrapper.wsbind`
-1. Modify the `PIPELINE(EXPIPE01)` resource attribute `WSDIR` to the directory containing the WSBind files.
-1. Install the `PIPELINE(EXPIPE01)` resource and check it is enabled.
-1. If you wish to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3000)` on which REST API requests are received from the front end. Note the ibm-cics-api module does not support HTTP basic authentication.
+1. Modify the PIPELINE(EXPIPE01) resource to set attributes:
+   * WSDIR to the directory containing the WSBind files
+   * CONFIGFILE to `<cics_install_dir>/samples/pipelines/jsonnonjavaprovider.xml`
+1. Install the PIPELINE(EXPIPE01) resource and check it is enabled. CICS will scan the directory specified by WSDIR and for each .wsbind file it will automatically install a URIMAP and WSBIND resource.
+1. If your CICS region does not have program autoinstall enabled, define and install PROGRAM resources for DFH0XICW and DFH0XPOW as detailed in [Defining the web service client and wrapper programs](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t121.html).
+1. If you are going to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3000)` on which REST API requests are received from the front end running in the browser. Note the ibm-cics-api module does not support HTTP basic authentication.
 
 ## Testing the application on your workstation
 1. Clone this repository:
@@ -78,4 +81,4 @@ Next check the stderr and stdout files that will be created in a sub-directory o
 For more help see the topic [Troubleshooting Node.js applications](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/troubleshooting/node/node-troubleshooting.html).
 
 ## License
-This project is licensed under [Apache License Version 2.0](LICENSE).  
+This project is licensed under [Apache License Version 2.0](LICENSE).
