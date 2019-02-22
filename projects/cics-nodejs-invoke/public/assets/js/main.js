@@ -30,7 +30,7 @@ function itemNumber(selection, id, inStock) {
 
 }
 
-// Calls list of all items in catalogue and dynamically renders item cards + item modals
+// Calls list of all items in catalog and dynamically renders item cards + item modals
 function refreshItems(itemsLength,divToAppend) {
   //var fullURL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
   $.ajax({
@@ -151,9 +151,9 @@ window.onload = function () {
   }, 100);
 
 // For the index page, load 3 random items into the "Best Sellers" and "Last chance" sections
-// For the full catalogue page, load all items onto the page
+// For the full catalog page, load all items onto the page
 
-if (location.pathname == "/fullcatalogue.html") {
+if (location.pathname == "/fullcatalog.html") {
   refreshItems(30,"product_div");
 } else if (location.pathname == "/index.html" || location.pathname == "/") {
   refreshItems(3,"bestseller_div");
