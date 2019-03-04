@@ -32,16 +32,17 @@ var server = app.listen(port, function () {
   }
 
   dns.lookup(os.hostname(), { hints: dns.ADDRCONFIG }, function (err, ip) {
-    if (ip == null | ip == undefined) {
+    if (err || ip == undefined | ip == null) {
       ip = "localhost"
     }
+
     console.log("This application is listening for requests at URI: http://" + ip + ":" + port + "/");
   });
 });
 
 process.on('SIGTERM', function () {
   server.close(function () {
-    console.log('Received SIGINT at ' + (new Date()));
+    console.log('Received SIGTERM at ' + (new Date()));
   });
 });
 
