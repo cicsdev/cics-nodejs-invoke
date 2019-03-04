@@ -32,7 +32,7 @@ var server = app.listen(port, function () {
   }
 
   dns.lookup(os.hostname(), { hints: dns.ADDRCONFIG }, function (err, ip) {
-    if (err || ip == undefined | ip == null) {
+    if (err || ip == undefined || ip == null) {
       ip = "localhost"
     }
 
