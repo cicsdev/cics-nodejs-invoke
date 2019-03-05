@@ -101,7 +101,7 @@ function refreshItems(itemsLength,divToAppend) {
 function buyItem(id) {
   //get number of items requested from modal
   var numberOfItems = parseInt(document.getElementById("number_" + id).innerHTML);
-  var nameOfItem = document.getElementById("name_" + id).innerHTML;
+  var nameOfItem = document.getElementById("name_" + id).innerHTML.trim();
   //var fullURL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 
   var buyurl = location.origin + "/catalogManager/buy/00" + id + "/"+numberOfItems+"";
