@@ -69,9 +69,16 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
    * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
    * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
 1. Create and install a BUNDLE resource, setting the `BUNDLERDIR` attribute to the zFS directory.
+1. Look at the standard out (.stdout) file created in a subdirectory of WORK_DIR for a message such as:
+
+   `This application is listening for requests at URI: http://myzoshost.example.org:3000`
 
 ## Testing the application in CICS
-Visit the URL from a web browser, for example: http://myzoshost.example.org:3000/
+Use a browser to call the application: http://myzoshost.example.org:3000/
+
+| [![CICS Online Store](/images/store.png "CICS Online Store")](/images/store.png) | [![Order item](/images/order.png "Order item")](/images/order.png) |
+| ------------ | --- |
+| [![About this demo](/images/about.png "About this demo")](/images/about.png) | [![Node.js runtime environment](/images/environment.png "Node.js runtime environment")](/images/environment.png) |
 
 ## Troubleshooting
 If the application does not respond to the HTTP request, check the BUNDLE resource is installed and enabled.
