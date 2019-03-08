@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 // Read in variables
 var port = process.env.PORT || 3000;
-var catalogServer = process.env.CATALOG_SERVER || 'http://example.org:9999';
+var catalogServer = process.env.CATALOG_SERVER || 'http://example.org:3001';
 
 var server = app.listen(port, function () {
   console.log(`This application is running on platform: ${process.platform}`);

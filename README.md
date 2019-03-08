@@ -26,7 +26,7 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
    * CONFIGFILE to `<cics_install_dir>/samples/pipelines/jsonnonjavaprovider.xml`
 1. Install the PIPELINE(EXPIPE01) resource and check it is enabled. CICS will scan the directory specified by WSDIR and for each .wsbind file it will automatically install a URIMAP and WSBIND resource.
 1. If your CICS region does not have program autoinstall enabled, define and install PROGRAM resources for DFH0XICW and DFH0XPOW as detailed in [Defining the web service client and wrapper programs](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/reference/samples/web-services/dfhxa_t121.html).
-1. If you are going to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3000)` on which REST API requests are received from the front end running in the browser. Note the ibm-cics-api module does not support HTTP basic authentication.
+1. If you are going to test the Node.js application from your workstation, define and install a TCPIPSERVICE resource with `PROTOCOL(HTTP)` and appropriate values for `HOST(*)` and `PORT(3001)` on which REST API requests are received from the Node.js application. Note the ibm-cics-api module does not support HTTP basic authentication.
 
 ## Testing the application on your workstation
 1. Clone this repository:
@@ -40,7 +40,7 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
    ```
 1. Set the host and port for connecting to CICS. This should match the host and port configured in the TCPIPSERVICE resource in CICS.
    ```
-   export CATALOG_SERVER=http://testplex.example.org:10000
+   export CATALOG_SERVER=http://testplex.example.org:3001
    ```
 1. Optionally set the local port the application will listen on. The default value is 3000.
    ```
@@ -50,7 +50,7 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
    ```
    npm start
    ```
-1. Visit the URL from a web browser: http://localhost:3000/
+1. Visit the URI from a web browser: http://localhost:3000/
 
 ## Deploying the Node.js application in CICS
 1. Clone this repository to a directory on zFS.
@@ -72,6 +72,7 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
 1. Look at the standard out (.stdout) file created in a subdirectory of WORK_DIR for a message such as:
 
    `This application is listening for requests at URI: http://myzoshost.example.org:3000`
+1. Visit the URI contained in the above message from a web browser: http://myzoshost.example.org:3000
 
 ## Testing the application in CICS
 Use a browser to call the application: http://myzoshost.example.org:3000/
