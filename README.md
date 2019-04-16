@@ -63,7 +63,7 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
    npm install
    ```
 1. Copy the contents of the `bundle` folder from this repository to a suitable location in zFS where the CICS region ID has read access.
-1. Create the zFS file <USSCONFIG>/nodejsapps/general.profile (replacing <USSCONFIG> with the value specified by the CICS SIT parameter USSCONFIG).
+1. Create the zFS file `<USSCONFIG>/nodejsprofiles/general.profile` where `<USSCONFIG>` should be replaced by the value specified by the CICS SIT parameter USSCONFIG.
    * `WORK_DIR=.` should be set to a suitable zFS directory for the stdout and stderr logs created when CICS starts the Node.js application.
    * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
 1. Update [`/projects/cics-nodejs-invoke/catalog.profile`](/projects/cics-nodejs-invoke/catalog.profile):
