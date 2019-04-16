@@ -1,0 +1,17 @@
+# Don't upload node_modules
+node_modules -
+# Don't upload things that start with dots
+.* -
+
+# Upload images in binary
+*.jpg binary binary
+*.png binary binary
+*.gif binary binary
+*.zip binary binary
+*.eot binary binary
+*.svg binary binary
+*.ttf binary binary
+*.woff binary binary
+
+# Convert CICS Node.js profiles to EBCDIC
+*.profile ISO8859-1 IBM-1047

@@ -58,14 +58,14 @@
 #
 # NODE_HOME specifies the location of IBM SDK for Node.js - z/OS.
 #
-NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x
+# NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x
 #
 #
 # WORK_DIR specifies the root directory in which CICS will create log
 # files. The default value is /tmp. A value of . means the home
 # directory of the user id running the CICS job.
 #
-WORK_DIR=.
+# WORK_DIR=.
 #
 #**********************************************************************
 #
@@ -81,7 +81,10 @@ WORK_DIR=.
 # %INCLUDE=/etc/cicsts/prodplex/nodejs/sdk.profile
 # %INCLUDE=&USSCONFIG;/nodejs/sdk.profile
 # %INCLUDE=&CONFIGROOT;/debug.profile
-#
+
+# This file should created on zFS and must contain WORK_DIR and NODE_HOME
+%INCLUDE=&USSCONFIG;/nodejsprofiles/general.profile
+
 #**********************************************************************
 #
 #                      Optional parameters
