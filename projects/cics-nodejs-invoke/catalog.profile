@@ -83,7 +83,7 @@
 # %INCLUDE=&CONFIGROOT;/debug.profile
 
 # This file should created on zFS and must contain WORK_DIR and NODE_HOME
-%INCLUDE=&USSCONFIG;/nodejsapps/general.profile
+%INCLUDE=&USSCONFIG;/nodejsprofiles/general.profile
 
 #**********************************************************************
 #
