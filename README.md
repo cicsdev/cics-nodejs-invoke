@@ -7,6 +7,7 @@ Sample Node.js application that uses the invoke API from the [ibm-cics-api](http
 
 ## Pre-requisites
 * CICS TS V5.5 or later.
+* CICS Explorer V5.5 or later.
 * IBM SDK for Node.js - z/OS 6.14.4 or later.
 * Node.js 6 or later on the workstation.
 * Git on z/OS and the workstation, or alternatively download manually.
