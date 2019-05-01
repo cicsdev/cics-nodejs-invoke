@@ -7,6 +7,7 @@ Sample Node.js application that uses the invoke API from the [ibm-cics-api](http
 
 ## Pre-requisites
 * CICS TS V5.5 or later.
+* CICS Explorer V5.5 or later.
 * IBM SDK for Node.js - z/OS 6.14.4 or later.
 * Node.js 6 or later on the workstation.
 * Git on z/OS and the workstation, or alternatively download manually.
@@ -53,22 +54,26 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
 1. Visit the URI from a web browser: http://localhost:3000/
 
 ## Deploying the Node.js application in CICS
-1. Clone this repository to a directory on zFS.
+1. Clone this repository to your workstation:
    ```
    git clone https://github.com/cicsdev/cics-nodejs-invoke.git
    ```
+1. Start CICS Explorer V5.5 or above.
+1. Select menu option **File → Import...** to start the import wizard, then select **General → Existing Projects into Workspace → Next**, and in option **Select root directory** select the directory `cics-nodejs-invoke/projects`. In the **Projects** section select cics-nodejs-invoke, then **Finish** to copy the project into the Eclipse workspace.
+1. If the directory `node_modules` exists in the CICS bundle, remove it.
+1. Update `catalog.profile`:
+   * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
+   * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
+1. Export the CICS bundle to a zFS directory.
 1. Download the Node.js modules that the application depends on:
    ```
-   cd cics-nodejs-invoke/projects/cics-nodejs-invoke
+   cd <bundle_dir>
    npm install
    ```
-1. Copy the contents of the `bundle` folder from this repository to a suitable location in zFS where the CICS region ID has read access.
 1. Create the zFS file `<USSCONFIG>/nodejsprofiles/general.profile` where `<USSCONFIG>` should be replaced by the value specified by the CICS SIT parameter USSCONFIG.
    * `WORK_DIR=.` should be set to a suitable zFS directory for the stdout and stderr logs created when CICS starts the Node.js application.
    * `NODE_HOME=/usr/lpp/IBM/cnj/IBM/node-v6.14.4-os390-s390x` to the installation directory of IBM SDK for Node.js - z/OS.
-1. Update [`/projects/cics-nodejs-invoke/catalog.profile`](/projects/cics-nodejs-invoke/catalog.profile):
-   * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
-   * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
+
 1. Create and install a BUNDLE resource, setting the `BUNDLERDIR` attribute to the zFS directory.
 1. Look at the standard out (.stdout) file created in a subdirectory of WORK_DIR for a message such as:
 
