@@ -63,7 +63,7 @@ The Node.js application uses the invoke API to call the JSON web service endpoin
 1. Update `catalog.profile`:
    * `PORT=3000` should be set to an available TCP/IP port on z/OS and be accessible from your workstation.
    * Note you do not need to set `CATALOG_SERVER=` when the Node.js application is run in CICS as the invoke API uses an optimised cross-memory mechanism to call COBOL programs.
-1. Export the CICS bundle to a z/OS directory.
+1. Export the CICS bundle to a zFS directory.
 1. Download the Node.js modules that the application depends on:
    ```
    cd <bundle_dir>
