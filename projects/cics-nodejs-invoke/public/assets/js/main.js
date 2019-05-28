@@ -45,7 +45,7 @@ function refreshItems(itemsLength,divToAppend) {
 
         var item_ref = allItemsJson[i].itemRef;
         var item_description = allItemsJson[i].itemDescription;
-        var item_cost = "£" + allItemsJson[i].itemCost.substring(2);
+        var item_cost = "£" + parseFloat(allItemsJson[i].itemCost).toFixed(2);
         var item_stock = "In Stock: " + allItemsJson[i].inStock;
         var item_maxnumber = allItemsJson[i].inStock;
 
