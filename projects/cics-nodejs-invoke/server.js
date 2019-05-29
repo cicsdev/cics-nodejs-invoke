@@ -73,23 +73,23 @@ app.get('/catalogManager/items', function (req, res) {
 
   let url = catalogServer + '/exampleApp/inquireCatalogWrapper';
 
-  console.log('Issuing API to get first set of items:\n' + url);
+  console.log('Get first set of items API request: ' + url);
   console.dir(inquireRequest1);
 
   var promise1 = cics.invoke(url, inquireRequest1)
     .then(function (json) {
-      console.log('Response from API to get first set of items:');
+      console.log('Get first set of items API response: ');
       console.dir(json.inquireCatalogResponse.catalogItem);
 
       allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
     });
 
-  console.log('Issuing API to get second set of items:\n' + url);
+  console.log('Get second set of items API request: ' + url);
   console.dir(inquireRequest2);
 
   var promise2 = cics.invoke(url, inquireRequest2)
     .then(function (json) {
-      console.log('Response from API to get second set of items:');
+      console.log('Get second set of items API response: ');
       console.dir(json.inquireCatalogResponse.catalogItem);
 
       allItemsArray = allItemsArray.concat(json.inquireCatalogResponse.catalogItem);
@@ -102,6 +102,7 @@ app.get('/catalogManager/items', function (req, res) {
     })
     .catch(function (err) {
       console.log('Error during CICS invoke: ' + err);
+      res.status(500);
     });
 });
 
@@ -118,18 +119,22 @@ app.post('/catalogManager/buy/:id/:numberOfItems', function (req, res) {
     }
   };
 
-  console.log('Issuing API to buy items:\n' + url);
+  console.log('Buy items API request: ' + url);
   console.dir(opts);
   
   cics.invoke(url, opts)
     .then(function (response) {
-      console.log('Order successfully placed for item: ' + req.params.id);
+      console.log('Buy items API response:');
+      console.dir(response);
+
+      if (response.placeOrderResponse.returnCode > 0) {
+        res.status(500);
+      }
       return response;
     }, function (err) {
-      console.err(err);
+      console.err('Buy items API response - error during CICS invoke: ' + err);
     })
     .then(function (data) {
-      console.log('Returning response to client');
       res.send(JSON.stringify(data));
     });
 });
