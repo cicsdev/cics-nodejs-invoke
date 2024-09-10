@@ -2,7 +2,7 @@
 # git's .gitattributes and .gitignore files to be encoded as EBCDIC.
 # Selected binary files will not be translated at all.
 # The default for text files
-* git-encoding=iso8859-1 working-tree-encoding=ibm-1047
+#* git-encoding=iso8859-1 working-tree-encoding=ibm-1047
 # git's files (which MUST be ASCII)
 .gitattributes git-encoding=iso8859-1 working-tree-encoding=iso8859-1
 .gitignore git-encoding=iso8859-1 working-tree-encoding=iso8859-1

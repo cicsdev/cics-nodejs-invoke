@@ -12,8 +12,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "ibm-cics-api": "^1.0.1"
+    "body-parser": "^1.20.3",
+    "express": "^4.20.0",
+    "ibm-cics-api": "^1.0.4"
   }
 }
